@@ -1,0 +1,11 @@
+pointer = 1 2 3 5 4 7 6 8 9 10 11 12
+!remove mod4 = Super_L
+!keysym Super_L = Control_L
+!add Control = Control_L
+
+
+! enable the below to flip !keys
+clear Control
+clear Mod4
+add Mod4 = Control_L
+add Control = Super_L
