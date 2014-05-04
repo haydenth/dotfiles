@@ -1,0 +1,124 @@
+# fvwm window configuration
+# for tom hayden <thayden@gmail.com>
+
+# Raleway is skinny font, monospace is monospace
+WindowFont  xft:Raleway Bold:pixelsize=15
+DefaultFont   xft:Verdana:pixelsize=12
+
+# limited number of desktops 
+DeskTopName 0 Main DeskTop
+DesktopName 1 Secondary Desktop
+DeskTopName 2 Tertiary Desktop
+DeskTopSize 3x1
+MenuStyle * FVWM
+MenuStyle * Foreground black, Background white, Greyed #c90 
+MenuStyle * Font xft:Monospace:pixelsize=14
+
+# setup root-menu and populate it
+Mouse 1 R A Menu Root-Menu Nop
+AddtoMenu Root-Menu "Chrome" \
+  Exec exec /opt/google/chrome/chrome
++ "rxvt" Exec exec xterm -fn -misc-fixed-*-*-*-*-18-*-*-*-*-*-*-*
++ "Firefox" Exec exec firefox -private
++ "R Studio" Exec exec rstudio
++ "VLC" Exec exec vlc
++ "Dogecoin" Exec exec ./home/thayden/dogecoin/dogecoin-qt
++ "xpdf" Exec exec xpdf
++ "Gedit" Exec exec gedit
++ "" Nop
++ "Restart" Restart
++ "Talk to Fvwm" FvwmTalk
++ "" Nop
++ "Exit Fvwm" Quit
+
+# setup Titlestyle stuff
+TitleStyle LeftJustified Height 28 -- flat
+TitleStyle ActiveUp Solid #0E72D3 -- flat 
+TitleStyle ActiveDown Solid #0E72D3 -- flat
+TitleStyle InactiveUp Solid Gray -- flat
+
+Module BorderStyle
+BorderStyle Active Simple
+ 
+# set the window border style
+#BorderStyle Active Solid black -- NoInset HiddenHandles
+#BorderStyle Inactive Solid black -- NoInset HiddenHandles
+
+#AddToFunc SwitchToWindow
+#+ I WindowListFunc
+
+# allow for screen locking and other things
+Key W A 4 Close
+Key Escape A 4 Exec exec xscreensaver-command -lock
+Key F12 A 4 Quit
+
+# ignore numlock and caps lock weirdness
+IgnoreModifiers L25
+
+# move between windows quickly with control [ and control ]
+Key bracketleft A Control   Next (CurrentPage, AcceptsFocus, !Iconic) Focus
+#Key ] A 4   Next (CurrentPage, AcceptsFocus, !Iconic) FocusRaiseFunc
+
+# handle window changes nicely
+Module FvwmAuto 1000 Raise Nop
+Style * ClickToFocus
+Style * BorderWidth 0, HandleWidth 2
+Style * Color White/Gray
+Style * MWMFunctions, MWMDecor, MWMButtons, HintOverride, OLDecor
+Style * DecorateTransient
+
+# handle desktop edges, we dont want them for desktop switching
+EdgeScroll 0 0
+EdgeThickness 0
+Key Right A 4 GotoDesk 0 0
+Key Left A 4 GotoDesk 0 1
+
+# start up xscreensaver and dropbox locally
+Exec exec xscreensaver -silent &
+Exec exec dropbox start &
+
+# setup backgrounds with cool galaxy image
+Module FvwmBacker
+*FvwmBackerDesk 0 Exec xpmroot $[HOME]/.fvwm/do-your-work-dont-be-stupid.xpm
+
+# stolen from Knuth, add a button in upper right hand corner to kill
+# the window. is a lightning bolt
+Mouse 0 1 A Close
+ButtonStyle 1 Vector 7 \
+  65x15@0 25x55@1 45x55@0 35x85@1 75x45@0 55x45@1 65x15@0
+ButtonStyle 1 - MWMDecorMenu
+
+# add button in upper right to iconify
+Mouse 0 2 A Iconify
+ButtonStyle 2 Vector 5 40x40@1 60x40@1 60x60@0 40x60@0 40x40@1
+ButtonStyle 2 - MWMDecorMin
+
+# this basically allows you to uniconify by double clicking
+Mouse 1 F A Resize-or-Raise
+Mouse 1 TS A Move-or-Raise
+Mouse 1 I A Move-or-DeIconify
+AddToFunc Resize-or-Raise "I" Raise
++ "M" Resize
++ "D" Lower
+AddToFunc Move-or-Raise "I" Raise
++ "M" Move
++ "D" Lower
+AddToFunc Move-or-DeIconify "I" Raise
++ "M" Move
++ "D" Iconify
+
+# fire some some terminal windows on boot, fit to work
+# with my monitor's resolution and specific gnome-terminal configs
+AddToFunc InitFunction "I" Echo initializing...
++ "I" Desk 0 0
++ "I" Exec exec rxvt -fn -misc-fixed-*-*-*-*-18-*-*-*-*-*-*-* -geometry 85x30+0+0 -rv
++ "I" Wait rxvt
++ "I" Exec exec rxvt -fn -misc-fixed-*-*-*-*-18-*-*-*-*-*-*-* --geometry 85x25+0+570 -rv
++ "I" Wait rxvt
++ "I" Exec exec rxvt -fn -misc-fixed-*-*-*-*-18-*-*-*-*-*-*-* --geometry 105x58+787+0 -rv
++ "I" Wait rxvt
++ "I" Exec exec gkrellm --geometry -0+0
++ "I" Wait gkrellm
++ "I" Desk 1 0
++ "I" Exec exec /opt/google/chrome/chrome
++ "I" Echo ready...
