@@ -40,17 +40,19 @@ TitleStyle InactiveUp Solid Gray -- flat
 Module BorderStyle
 BorderStyle Active Simple
  
-# set the window border style
-#BorderStyle Active Solid black -- NoInset HiddenHandles
-#BorderStyle Inactive Solid black -- NoInset HiddenHandles
-
-#AddToFunc SwitchToWindow
-#+ I WindowListFunc
+DestroyFunc CenterWindow
+AddToFunc   CenterWindow
++ I ThisWindow Piperead "echo Move \
+ +$(( $[vp.width]/2-$[w.width]/2 ))p \
+ +$(( $[vp.height]/2-$[w.height]/2 ))p"
 
 # allow for screen locking and other things
+# control-F to maximize, control-C to center
 Key W A 4 Close
-Key Escape A 4 Exec exec xscreensaver-command -lock
+Key C A 4 CenterWindow
+Key Escape A 4 Exec exec gnome-screensaver-command --lock
 Key F12 A 4 Quit
+Key F A 4 Maximize 90 100
 
 # ignore numlock and caps lock weirdness
 IgnoreModifiers L25
