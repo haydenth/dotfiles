@@ -1,5 +1,4 @@
 -- Copilot workspace settings
---vim.g.copilot_workspace_folders = {"~/projects/pipedb", "~/projects/foodcoin", "~/projects/pembina-p10002"}
 --vim.g.copilot_workspace_root = "~/projects"
 --vim.g.copilot_workspace_auto_open = 1
 --vim.g.copilot_workspace_auto_close = 1
