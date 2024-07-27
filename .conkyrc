@@ -1,0 +1,127 @@
+# Conky settings #
+background yes
+update_interval 1
+double_buffer yes
+no_buffers yes
+imlib_cache_size 10
+
+# Window specifications #
+gap_x 0
+gap_y 28
+minimum_size 160 800
+maximum_width 160
+alignment top_right
+own_window yes
+own_window_type normal
+own_window_transparent yes
+own_window_argb_visual yes
+own_window_argb_value 255
+own_window_hints undecorated,sticky,skip_taskbar,skip_pager,below
+#own_window_type normal
+#own_window_transparent no
+#own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+#own_window_argb_visual yes
+#own_window_argb_value 0
+border_inner_margin 0
+border_outer_margin 0
+
+# Graphics settings #
+draw_shades no
+default_shade_color AAAAAA
+draw_outline no
+default_outline_color AAAAAA
+draw_borders no
+draw_graph_borders no
+default_graph_size 26 80
+show_graph_scale no
+show_graph_range no
+
+# Text settings #
+use_xft yes
+xftalpha 0
+xftfont Avenir:size=10
+text_buffer_size 256
+override_utf8_locale yes
+
+# Useful shortenings #
+short_units yes
+pad_percents  2
+top_name_width 30
+
+# Color scheme #
+default_color FFFFFF
+color1 FFFFFF
+color2 68FF00
+color3 FFFFFF
+color4 FFFFFF
+color5 DCDCDC
+color6 FFFFFF
+color7 FFFFFF
+color8 FFFFFF
+
+TEXT
+
+  ${font Avenir:size=15}${time %I:%M:%S %p}${voffset -5}
+  ${font Avenir:size=13}${time %Y}-${time %m}-${time %d}${voffset -5}
+  ${font Avenir:size=13}${time %A}${font}${voffset -5}
+
+${font Avenir:size=13}SYSTEM INFO${font} ${color0}$hr${color1}
+ Host${alignr}${color0}${nodename}${color1}
+ Uptime${alignr}${color0}${uptime}${color1}
+ Battery: ${battery_short}\
+# Color battery bar based on percentage remaining.
+${if_match ${battery_percent} < 15}${color red}${else}\
+${if_match ${battery_percent} < 25}${color orange}${else}\
+${if_match ${battery_percent} < 35}${color yellow}${else}\
+${if_match ${battery_percent} < 90}${color white}${else}\
+${color green}${endif}${endif}${endif}${endif}\
+${alignr}${battery_bar 8,70}${color}
+\
+${alignr}${battery_time}
+\
+${font Avenir:size=13}STATS${font} ${color0}$hr${color1}
+\
+\
+${goto 20}${cpugraph cpu0 16,130 68FF00 68FF00 -l}
+${goto 20}CPU0:${alignr 10}${cpu cpu0}%
+
+${goto 20}${cpugraph cpu1 16,130 68FF00 68FF00 -l}
+${goto 20}CPU1:${alignr 10}${cpu cpu1}%
+
+${goto 20}${cpugraph cpu2 16,130 68FF00 68FF00 -l}
+${goto 20}CPU2:${alignr 10}${cpu cpu2}%
+
+${goto 20}${cpugraph cpu3 16,130 68FF00 68FF00 -l}
+${goto 20}CPU3:${alignr 10}${cpu cpu3}%
+
+${goto 20}${cpugraph cpu4 16,130 68FF00 68FF00 -l}
+${goto 20}CPU4:${alignr 10}${cpu cpu4}%
+
+${goto 20}${cpugraph cpu5 16,130 68FF00 68FF00 -l}
+${goto 20}CPU5:${alignr 10}${cpu cpu5}%
+
+${goto 20}${cpugraph cpu6 16,130 68FF00 68FF00 -l}
+${goto 20}CPU6:${alignr 10}${cpu cpu6}%
+
+${goto 20}${cpugraph cpu7 16,130 68FF00 68FF00 -l}
+${goto 20}CPU7:${alignr 10}${cpu cpu7}%
+
+${goto 20}${memgraph 16,130 68FF00 68FF00 -l}
+${goto 20}Mem:${alignr 10}${memperc}%
+
+${goto 20}${diskiograph 16,130 68FF00 68FF00 -l}
+${goto 20}Disk I/O:${alignr 10}${diskio}
+
+${font Avenir:size=13}NETWORK${font} ${color0}$hr${color1}
+${goto 5}Private Network: \
+${if_existing /proc/net/route wlp0s20f3}
+${goto 10}${addr wlp0s20f3}
+${goto 10}${wireless_essid wlp0s20f3}
+${goto 10}${wireless_link_qual wlp0s20f3} / ${wireless_link_qual_max wlp0s20f3} \
+${else}${if_existing /proc/net/route enp0s31f6}
+${goto 20}${addr enp0s31f6} \
+${else}Network disconnected \
+  ${endif}${endif}
+${goto 5}Public Network:
+${goto 10}${exec cat /home/tom/.config/ip}
+${goto 10}${exec cat /home/tom/.config/ping} ms
